@@ -1,4 +1,4 @@
-const CHECKOUT_URL = "";
+const CHECKOUT_URL = "https://tachyon80.gumroad.com/l/gcgqhg";
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
