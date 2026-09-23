@@ -180,36 +180,36 @@
       <div class="section-inner sample-grid">
         <div>
           <h2 data-reveal>See the shape of a finding.</h2>
-          <p class="section-lede" data-reveal style="--reveal-delay: 80ms">This interactive preview is illustrative. It does not scan your domain or make a live security claim.</p>
+          <p class="section-lede" data-reveal style="--reveal-delay: 80ms">Enter a domain for a live DMARC DNS check in your browser. The paid report adds HTTP headers, TLS, SPF/DKIM and more.</p>
           <form class="sample-form" id="sample-form" action="https://formspree.io/f/mljdbqbq" method="POST" data-reveal style="--reveal-delay: 140ms">
-            <label for="sample-domain">Example domain</label>
+            <label for="sample-domain">Your domain</label>
             <div class="sample-input-row">
               <input id="sample-domain" name="domain" type="text" inputmode="url" autocomplete="off" value="yourbusiness.co.uk" placeholder="yourbusiness.co.uk" aria-describedby="sample-help" required>
-              <button class="button" type="submit">Preview sample</button>
+              <button class="button" type="submit">Check DMARC</button>
             </div>
-            <p class="form-help" id="sample-help">Enter a domain to update the illustrative report label and send us your request.</p>
+            <p class="form-help" id="sample-help">Runs a live _dmarc TXT lookup via public DNS. Also sends us your request.</p>
             <p class="form-error" id="sample-error" role="alert" hidden>Enter a domain such as yourbusiness.co.uk.</p>
             <p class="form-success" id="sample-success" role="status" hidden>Sent. We will follow up with your sample.</p>
           </form>
           <div class="sample-meta">
-            <span>Illustrative sample</span>
+            <span>Live DNS check</span>
             <span>Domain: <strong id="sample-domain-output">yourbusiness.co.uk</strong></span>
           </div>
         </div>
-        <article class="finding-card" aria-live="polite" data-reveal="scale" style="--reveal-delay: 160ms">
+        <article class="finding-card" id="finding-card" aria-live="polite" data-reveal="scale" style="--reveal-delay: 160ms">
           <div class="finding-card-top">
             <span class="mono-label">Finding 01 / Email security</span>
-            <span class="severity severity-high">High</span>
+            <span class="severity severity-high" id="finding-severity">High</span>
           </div>
-          <h3>No DMARC record found</h3>
-          <p>Without DMARC, spoofed mail from the domain can reach inboxes with no reporting or enforcement.</p>
+          <h3 id="finding-title">No DMARC record found</h3>
+          <p id="finding-body">Without DMARC, spoofed mail from the domain can reach inboxes with no reporting or enforcement.</p>
           <div class="evidence-row">
             <span class="mono-label">Evidence</span>
-            <code>_dmarc.yourbusiness.co.uk -&gt; not found</code>
+            <code id="finding-evidence">_dmarc.yourbusiness.co.uk -&gt; not found</code>
           </div>
           <div class="recommendation">
             <span class="mono-label">Practical next step</span>
-            <p>Publish a DMARC TXT record, start with reporting, then tighten the policy after legitimate senders are confirmed.</p>
+            <p id="finding-next">Publish a DMARC TXT record, start with reporting, then tighten the policy after legitimate senders are confirmed.</p>
           </div>
           <a class="text-link" href="out/example.com_risk_report_20260922.pdf">Open the real example.com report PDF</a>
         </article>
@@ -319,7 +319,7 @@
           </details>
           <details>
             <summary>Will the page scan my website?</summary>
-            <p>No. The interactive preview on this page is illustrative and runs entirely in your browser. A purchased report is prepared separately from the checks available at scan time.</p>
+            <p>The free check looks up your public DMARC TXT record only (via DNS, in your browser). It does not fetch pages, headers or TLS. A purchased report runs the full check set at order time.</p>
           </details>
           <details>
             <summary>Which checks are available now?</summary>

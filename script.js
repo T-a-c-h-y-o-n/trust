@@ -28,9 +28,14 @@ const sampleOutput = document.getElementById("sample-domain-output");
 const sampleError = document.getElementById("sample-error");
 const sampleSuccess = document.getElementById("sample-success");
 const sampleSubmit = sampleForm?.querySelector('button[type="submit"]');
-const evidenceCode = document.querySelector(".evidence-row code");
+const findingSeverity = document.getElementById("finding-severity");
+const findingTitle = document.getElementById("finding-title");
+const findingBody = document.getElementById("finding-body");
+const findingEvidence = document.getElementById("finding-evidence");
+const findingNext = document.getElementById("finding-next");
 const domainPattern = /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i;
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mljdbqbq";
+const DOH_ENDPOINT = "https://dns.google/resolve";
 
 function normaliseDomain(value) {
   return value
@@ -39,6 +44,87 @@ function normaliseDomain(value) {
     .replace(/^www\./i, "")
     .replace(/[/?#].*$/, "")
     .toLowerCase();
+}
+
+async function lookupDmarc(domain) {
+  const url = `${DOH_ENDPOINT}?name=${encodeURIComponent(`_dmarc.${domain}`)}&type=TXT`;
+  const res = await fetch(url, { headers: { Accept: "application/json" } });
+  if (!res.ok) {
+    throw new Error(`DoH ${res.status}`);
+  }
+  const data = await res.json();
+  const answers = Array.isArray(data.Answer) ? data.Answer : [];
+  const records = answers
+    .filter((a) => a && a.type === 16 && typeof a.data === "string")
+    .map((a) => a.data.replace(/^"|"$/g, "").trim())
+    .filter((r) => /^v=DMARC1/i.test(r));
+  return records;
+}
+
+function flashEvidence(el) {
+  if (!el) return;
+  el.classList.remove("is-flash");
+  void el.offsetWidth;
+  el.classList.add("is-flash");
+  window.setTimeout(() => el.classList.remove("is-flash"), 900);
+}
+
+function setFinding({ severity, severityClass, title, body, evidence, next }) {
+  if (findingSeverity) {
+    findingSeverity.textContent = severity;
+    findingSeverity.className = `severity ${severityClass}`;
+  }
+  if (findingTitle) findingTitle.textContent = title;
+  if (findingBody) findingBody.textContent = body;
+  if (findingEvidence) {
+    findingEvidence.textContent = evidence;
+    flashEvidence(findingEvidence);
+  }
+  if (findingNext) findingNext.textContent = next;
+}
+
+function showChecking(domain) {
+  setFinding({
+    severity: "Checking",
+    severityClass: "severity severity-checking",
+    title: "Checking DMARC…",
+    body: "Querying public DNS for the _dmarc TXT record on this domain.",
+    evidence: `_dmarc.${domain} -> …`,
+    next: "Results appear here after the live lookup finishes.",
+  });
+}
+
+function showDmarcFound(domain, record) {
+  setFinding({
+    severity: "Low",
+    severityClass: "severity severity-low",
+    title: "DMARC record found",
+    body: "This domain publishes a DMARC policy. Re-run the free check after any change; the paid report covers headers, TLS and email auth in full.",
+    evidence: `_dmarc.${domain} -> ${record}`,
+    next: "Tighten the policy over time (p=none -> quarantine -> reject) once legitimate senders are confirmed.",
+  });
+}
+
+function showDmarcMissing(domain) {
+  setFinding({
+    severity: "High",
+    severityClass: "severity severity-high",
+    title: "No DMARC record found",
+    body: "Without DMARC, spoofed mail from the domain can reach inboxes with no reporting or enforcement.",
+    evidence: `_dmarc.${domain} -> not found`,
+    next: "Publish a DMARC TXT record, start with reporting, then tighten the policy after legitimate senders are confirmed.",
+  });
+}
+
+function showDmarcError(domain) {
+  setFinding({
+    severity: "Unknown",
+    severityClass: "severity severity-checking",
+    title: "DNS check unavailable",
+    body: "The public DNS lookup could not be completed. Try again, or order the full report for a server-side check.",
+    evidence: `_dmarc.${domain} -> lookup failed`,
+    next: "Retry the free check, or purchase the report for a full assessment with provenance.",
+  });
 }
 
 async function submitSampleToFormspree(domain) {
@@ -101,17 +187,23 @@ if (sampleForm && sampleInput) {
     if (sampleOutput) {
       sampleOutput.textContent = domain;
     }
-    if (evidenceCode) {
-      evidenceCode.textContent = `_dmarc.${domain} -> not found`;
-      evidenceCode.classList.remove("is-flash");
-      void evidenceCode.offsetWidth;
-      evidenceCode.classList.add("is-flash");
-      window.setTimeout(() => evidenceCode.classList.remove("is-flash"), 900);
-    }
+
+    showChecking(domain);
 
     if (sampleSubmit) {
       sampleSubmit.disabled = true;
     }
+    try {
+      const records = await lookupDmarc(domain);
+      if (records.length > 0) {
+        showDmarcFound(domain, records[0]);
+      } else {
+        showDmarcMissing(domain);
+      }
+    } catch {
+      showDmarcError(domain);
+    }
+
     try {
       await submitSampleToFormspree(domain);
       if (sampleSuccess) {
