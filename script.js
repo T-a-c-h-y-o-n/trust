@@ -55,7 +55,16 @@ async function submitSampleToFormspree(domain) {
   }
 }
 
+function syncSampleSubmitState() {
+  if (!sampleSubmit || !sampleInput) return;
+  const domain = normaliseDomain(sampleInput.value);
+  sampleSubmit.disabled = !domainPattern.test(domain);
+}
+
 if (sampleForm && sampleInput) {
+  sampleInput.addEventListener("input", syncSampleSubmitState);
+  syncSampleSubmitState();
+
   sampleForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const domain = normaliseDomain(sampleInput.value);
@@ -69,6 +78,7 @@ if (sampleForm && sampleInput) {
         sampleError.hidden = false;
       }
       sampleInput.setAttribute("aria-invalid", "true");
+      syncSampleSubmitState();
       sampleInput.focus();
       return;
     }
@@ -110,9 +120,7 @@ if (sampleForm && sampleInput) {
         sampleSuccess.hidden = true;
       }
     } finally {
-      if (sampleSubmit) {
-        sampleSubmit.disabled = false;
-      }
+      syncSampleSubmitState();
     }
   });
 }
