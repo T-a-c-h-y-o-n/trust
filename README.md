@@ -2,73 +2,57 @@
 
 Productized service MVP: domain -> deterministic scan -> risk grade -> PDF report.
 
+Landing page: `index.html`, `styles.css`, `script.js`, `robots.txt`, `favicon` / `assets/`.
+
 ## Hızlı başlangıç
 
 ```bash
-cd /home/ali/Belgeler/Claude-Code/Api_Monetization/trust
+# Lokal önizleme (statik)
+python3 -m http.server 8080
 
-# Tek domain (JSON + PDF)
+# Scanner (opsiyonel, aynı repo içinde)
 python3 web_risk.py example.com --pdf --json out/example.com_scan.json
-
-# Hızlı (SSL Labs yok)
 python3 web_risk.py example.com --no-ssllabs --no-llm --pdf
-
-# CSV batch (UK lead)
-python3 web_risk.py --batch "/home/ali/Belgeler/Claude-Code/Merchants List/outreach_lists/20260918_ukconst_sample.csv" --limit 20 --no-ssllabs -v
 
 # Testler (mock'lu, canlı API bağımlı değil)
 python3 -m pytest tests/ -q
 ```
 
-## Mimari
+## Yapilandirma
+
+- Form endpoint: Formspree (`script.js` -> `FORMSPREE_ENDPOINT`)
+- Checkout: `script.js` -> `CHECKOUT_URL` (Gumroad linki)
+- Scanner icin env: `.env.example` dosyasina bakin; `.env` commit edilmez
+
+## Dosyalar (public landing)
+
+```
+index.html          Sayfa
+styles.css          Stilller
+script.js           Form + checkout + etkilesim
+robots.txt          Crawler
+favicon / assets/   Marka ve ornek gorseller
+```
+
+## Scanner (opsiyonel)
 
 ```
 web_risk.py                 CLI
 webrisk/
   normalize.py              domain/URL normalizasyonu
-  models.py                 pydantic data contract (CheckResult, Finding, ScanResult)
-  checks/
-    http_dns.py             HTTP, headers, DNS, SPF/DKIM/DMARC/MX
-    tls_ssllabs.py          yerel TLS sertifikası + SSL Labs API
-    threat.py               Safe Browsing, URLhaus, OTX, urlscan
-  risk_engine.py            deterministik skor + A-F notu + bulgular
-  llm.py                    MiMo narrative (structured, validated, fallback)
-  report.py                 Markdown -> WeasyPrint PDF
-  scanner.py                scan_domain() orchestrator (gelecek API/scheduler girişi)
-tests/test_webrisk.py       38 unit + synthetic e2e
+  models.py                 pydantic data contract
+  checks/                   HTTP, DNS, TLS, threat
+  risk_engine.py            deterministik skor + A-F
+  llm.py                    narrative + fallback
+  report.py                 Markdown -> PDF
+  scanner.py                scan_domain() orchestrator
+tests/test_webrisk.py       unit + synthetic e2e
 ```
 
-Akış: `EXTERNAL -> RAW -> NORMALIZED -> VALIDATION -> RISK RULE -> FINDING -> (MiMo) -> PDF`
+Akis: `EXTERNAL -> RAW -> NORMALIZED -> VALIDATION -> RISK RULE -> FINDING -> (LLM) -> PDF`
 
-## Kontrol durumları (2026-09-22 canlı doğrulama)
+API timeout/failure **asla** threat MATCH sayilmaz (`CLEAN|MATCH|UNAVAILABLE|ERROR`).
 
-| Kaynak | Durum | Not |
-|---|---|---|
-| Yerel TLS handshake | OK | sertifika, expiry, days_remaining |
-| HTTP + security headers | OK | redirect zinciri, HSTS/CSP/... |
-| DNS SPF/DKIM/DMARC/MX | OK | anahtarsız deterministik |
-| SSL Labs API | OK | yavaş; `--ssllabs-timeout` / PENDING asla grade uydurmaz |
-| AlienVault OTX | OK | anahtarsız; zaman zaman timeout |
-| urlscan.io search | OK | anahtarsız |
-| Google Safe Browsing | UNAVAILABLE | `GSB_API_KEY` gerekli |
-| URLhaus | UNAVAILABLE | `URLHAUS_AUTH_KEY` gerekli (canlı 401) |
-| Website Carbon | - | adapter yok (401, anahtar gerekli) - FUTURE |
-| Mozilla Observatory | - | endpoint 404 - FUTURE |
-| MiMo narrative | INTERMITTENT | timeout olursa deterministic fallback |
+## Kapsam disi (yapilmayacak)
 
-API timeout/failure **asla** threat MATCH sayılmaz (`CLEAN|MATCH|UNAVAILABLE|ERROR`).
-
-## Çıktılar
-
-- `out/<domain>_scan.json` - normalize edilmiş scan result
-- `out/<domain>_risk_report_YYYYMMDD.md`
-- `out/<domain>_risk_report_YYYYMMDD.pdf`
-- `out/batch_results.csv` - batch özet + `personalization_line`
-
-## Env
-
-`.env.example` dosyasına bakın. `.env` otomatik yüklenir (trust/ ve Merchants List/).
-
-## Kapsam dışı (yapılmayacak)
-
-dashboard, login, SaaS billing, monitoring cron, frontend, otomatik ödeme.
+dashboard, login, SaaS billing, monitoring cron, otomatik odeme.
