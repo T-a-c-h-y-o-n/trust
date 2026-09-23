@@ -798,6 +798,10 @@ summary:focus-visible {
   pointer-events: none;
 }
 
+.sample-form input:placeholder-shown {
+  border-color: rgba(142, 209, 180, 0.45);
+}
+
 .sample-meta {
   display: flex;
   flex-wrap: wrap;

@@ -62,6 +62,15 @@ function syncSampleSubmitState() {
 }
 
 if (sampleForm && sampleInput) {
+  const samplePlaceholderDomain = "yourbusiness.co.uk";
+
+  sampleInput.addEventListener("focus", () => {
+    if (normaliseDomain(sampleInput.value) === samplePlaceholderDomain) {
+      sampleInput.value = "";
+      syncSampleSubmitState();
+    }
+  });
+
   sampleInput.addEventListener("input", syncSampleSubmitState);
   syncSampleSubmitState();
 
