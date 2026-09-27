@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#111817">
-  <title>SiteRisk Report | Website risk report for UK small businesses</title>
-  <meta name="description" content="A focused, evidence-backed website risk report for UK small businesses. One domain, clear findings, practical next steps, and a 4-6 page PDF.">
-  <meta property="og:title" content="SiteRisk Report | Website risk report for UK small businesses">
-  <meta property="og:description" content="One domain. Clear findings. Practical next steps. A focused website risk report in a 4-6 page PDF.">
+  <title>SiteRisk Report | Is your site already warning customers away?</title>
+  <meta name="description" content="Blacklist warnings, expired certificates and spoofed mail cost you customers before you hear about it. An evidence-backed report that finds them first. 4-6 page PDF, $49.">
+  <meta property="og:title" content="SiteRisk Report | Is your site already warning customers away?">
+  <meta property="og:description" content="Blacklist warnings, expired certificates, spoofed mail. One domain, evidence-backed findings, practical fixes. 4-6 page PDF, $49.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://trust.ai2eo.com/">
   <meta property="og:image" content="https://trust.ai2eo.com/assets/report-example-page.png">
@@ -62,8 +62,8 @@
       <div class="hero-grid">
         <div class="hero-copy">
           <p class="kicker" data-reveal style="--reveal-delay: 40ms">Website risk report / UK small business</p>
-          <h1 data-reveal style="--reveal-delay: 120ms">Your website risk, made visible.</h1>
-          <p class="lede" data-reveal style="--reveal-delay: 200ms">A focused, evidence-backed PDF report for UK small businesses. One domain, clear findings, practical next steps.</p>
+          <h1 data-reveal style="--reveal-delay: 120ms">Your customers see warnings you never see.</h1>
+          <p class="lede" data-reveal style="--reveal-delay: 200ms">A browser "dangerous site" screen, an expired certificate, a quote request lost to spam. Each one costs customers silently. This report finds them first - with evidence, not guesses.</p>
           <div class="hero-actions" data-reveal style="--reveal-delay: 280ms">
             <a class="button" data-checkout href="#checkout">Get the report - $49</a>
             <a class="button button-secondary" href="#checks">See what's checked</a>
@@ -115,24 +115,24 @@
       <div class="section-inner">
         <p class="section-kicker" data-reveal>01 / Scope</p>
         <div class="section-heading">
-          <h2 data-reveal>What the report makes visible</h2>
-          <p data-reveal style="--reveal-delay: 100ms">Small configuration gaps are easy to miss when a website still loads. The report separates completed checks from unavailable sources so the result stays useful and honest.</p>
+          <h2 data-reveal>What costs you customers first</h2>
+          <p data-reveal style="--reveal-delay: 100ms">Your site can load perfectly while browsers warn visitors away, mail lands in spam, or a certificate counts down to outage. The report checks the failures with real consequences first.</p>
         </div>
         <div class="check-layout">
           <div class="check-list">
             <article class="check-row">
               <span class="check-number">01</span>
               <div>
-                <h3>HTTP and redirect behaviour</h3>
-                <p>Status, final URL, redirect chain, reachability and basic response metadata.</p>
+                <h3>Blacklist and threat signals</h3>
+                <p>When threat intel flags your domain, browsers show a full-page warning and visitors leave. We check AlienVault OTX, urlscan.io and related signals.</p>
               </div>
               <span class="state state-ok">Available</span>
             </article>
             <article class="check-row">
               <span class="check-number">02</span>
               <div>
-                <h3>Security headers</h3>
-                <p>HSTS, CSP, X-Content-Type-Options, Referrer-Policy, Permissions-Policy and X-Frame-Options.</p>
+                <h3>Certificate expiry countdown</h3>
+                <p>An expired certificate means HTTPS breaks and visitors see trust errors. We read the live certificate and count the days left.</p>
               </div>
               <span class="state state-ok">Available</span>
             </article>
@@ -140,17 +140,17 @@
               <span class="check-number">03</span>
               <div>
                 <h3>Email authentication</h3>
-                <p>SPF, DKIM, DMARC and MX records, with explicit unknown or unavailable states.</p>
+                <p>Without SPF and DMARC, anyone can forge mail as your domain and your quotes can land in spam. SPF, DKIM, DMARC and MX records, with explicit unknown states.</p>
               </div>
               <span class="state state-ok">Available</span>
             </article>
             <article class="check-row">
               <span class="check-number">04</span>
               <div>
-                <h3>TLS and reputation signals</h3>
-                <p>Direct certificate checks, SSL Labs when it completes, AlienVault OTX and urlscan.io.</p>
+                <h3>HTTP, redirects and headers</h3>
+                <p>Status, final URL, redirect chain, reachability, HSTS, CSP and related response metadata.</p>
               </div>
-              <span class="state state-partial">Source dependent</span>
+              <span class="state state-ok">Available</span>
             </article>
           </div>
           <aside class="status-panel" aria-label="Check availability" data-reveal="right" style="--reveal-delay: 140ms">
@@ -314,6 +314,10 @@
         </div>
         <div class="faq-list" data-reveal style="--reveal-delay: 120ms">
           <details>
+            <summary>My site loads fine. Why would I pay for this?</summary>
+            <p>If the only findings are missing optional headers, you should not - the free DMARC check above is enough for you. The report pays for itself when it catches a blacklist flag, an expiring certificate, or mail authentication that lets anyone forge your domain. Those are the findings that cost customers.</p>
+          </details>
+          <details>
             <summary>Is this a penetration test?</summary>
             <p>No. It is a point-in-time assessment of selected website, email and available reputation signals. It does not attempt to exploit or break into a system.</p>
           </details>
@@ -344,7 +348,7 @@
     <section class="final-cta">
       <div class="final-cta-inner">
         <p class="kicker" data-reveal>SiteRisk Report / one domain</p>
-        <h2 data-reveal style="--reveal-delay: 80ms">Know what the evidence says before the next customer does.</h2>
+        <h2 data-reveal style="--reveal-delay: 80ms">Find the warning before your customers do.</h2>
         <a class="button button-light" data-checkout href="#checkout" data-reveal style="--reveal-delay: 160ms">Get the report - $49</a>
         <p class="final-note" data-reveal style="--reveal-delay: 220ms">A point-in-time technical assessment. Not a penetration test or guarantee of security.</p>
       </div>
