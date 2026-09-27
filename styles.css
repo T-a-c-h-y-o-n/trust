@@ -214,9 +214,6 @@ summary:focus-visible {
 }
 
 .nav {
-}
-
-.nav {
   display: flex;
   align-items: center;
   gap: 25px;

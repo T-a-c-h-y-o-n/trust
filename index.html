@@ -23,7 +23,7 @@
     "@context": "https://schema.org",
     "@type": "Product",
     "name": "SiteRisk Report",
-    "description": "A focused, evidence-backed website risk report for UK small businesses, delivered as a 4-6 page PDF.",
+    "description": "An evidence-backed website risk report that finds blacklist warnings, certificate problems and spoofed-mail gaps before customers do. Delivered as a 4-6 page PDF.",
     "brand": {
       "@type": "Brand",
       "name": "SiteRisk Report"
@@ -48,6 +48,7 @@
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="#checks">Checks</a>
+        <a href="#deliverables">Report</a>
         <a href="#sample">Sample</a>
         <a href="#process">Process</a>
         <a href="#pricing">Pricing</a>
@@ -76,7 +77,7 @@
               <span>Report preview</span>
               <span>example.com</span>
             </div>
-            <img src="assets/report-example-page.png" alt="First page of an example SiteRisk Report PDF showing a grade and technical findings" fetchpriority="high">
+            <img src="assets/report-example-page.png" alt="First page of an example SiteRisk Report PDF showing the primary incident and its evidence" fetchpriority="high">
             <div class="visual-caption">
               <span>Real MVP output</span>
               <span>4-6 page PDF</span>
@@ -97,8 +98,8 @@
           <span>page PDF report</span>
         </div>
         <div class="proof-item">
-          <strong class="stat" data-count-format="text">A-F</strong>
-          <span>risk grade</span>
+          <strong class="stat" data-count-format="text">3</strong>
+          <span>high-cost failures checked</span>
         </div>
         <div class="proof-item">
           <strong class="stat" data-count-from="0" data-count-to="24" data-count-suffix="h">24h</strong>
@@ -170,7 +171,7 @@
               <span class="status-label">Not claimed</span>
               <span class="status-value">Safe Browsing, URLhaus, monitoring</span>
             </div>
-            <p class="panel-note">Unavailable sources are shown as unavailable. They are never treated as clean or used to invent a grade.</p>
+            <p class="panel-note">Unavailable sources are shown as unavailable. They are never treated as clean or used to invent a finding.</p>
           </aside>
         </div>
       </div>
@@ -180,7 +181,7 @@
       <div class="section-inner sample-grid">
         <div>
           <h2 data-reveal>See the shape of a finding.</h2>
-          <p class="section-lede" data-reveal style="--reveal-delay: 80ms">Enter a domain for a live DMARC DNS check in your browser. The paid report adds HTTP headers, TLS, SPF/DKIM and more.</p>
+          <p class="section-lede" data-reveal style="--reveal-delay: 80ms">Enter a domain for a live DMARC DNS check in your browser. The paid report adds certificate expiry, blacklist signals, SPF/DKIM and more.</p>
           <form class="sample-form" id="sample-form" action="https://formspree.io/f/mljdbqbq" method="POST" data-reveal style="--reveal-delay: 140ms">
             <label for="sample-domain">Your domain</label>
             <div class="sample-input-row">
@@ -242,7 +243,7 @@
             <span class="process-number">03</span>
             <div>
               <h3>Receive the evidence</h3>
-              <p>The result is organised into a 4-6 page PDF with an A-F grade, findings and prioritised next steps.</p>
+              <p>The result is organised into a 4-6 page PDF: the failures that cost customers first, the evidence behind each one, and prioritised next steps.</p>
             </div>
           </article>
         </div>
@@ -255,7 +256,7 @@
           <h2 data-reveal>Inside the report</h2>
           <p class="section-lede" data-reveal style="--reveal-delay: 80ms">The structure is designed for a business owner and the person who maintains the website. Evidence stays close to every recommendation.</p>
           <ol class="report-contents">
-            <li><span>01</span><div><strong>Executive summary</strong><p>Grade, score, risk level and the primary concern.</p></div></li>
+            <li><span>01</span><div><strong>Executive summary</strong><p>The incident found, the evidence behind it, and what it costs you if left unfixed.</p></div></li>
             <li><span>02</span><div><strong>Security and infrastructure</strong><p>HTTP, TLS and security-header observations.</p></div></li>
             <li><span>03</span><div><strong>Email security</strong><p>SPF, DKIM, DMARC and MX status.</p></div></li>
             <li><span>04</span><div><strong>Threat and reputation</strong><p>Completed source results and explicit unavailable states.</p></div></li>
@@ -292,16 +293,16 @@
             <span class="price" data-count-from="0" data-count-to="49" data-count-prefix="$" data-count-format="int">$49</span>
           </div>
           <ul>
-            <li>Website and email configuration checks</li>
-            <li>A-F risk grade and score</li>
-            <li>Evidence-backed findings</li>
+            <li>Blacklist, certificate-expiry and email-auth checks</li>
+            <li>Evidence-backed findings, ranked by customer impact</li>
+            <li>Concrete incidents, not a generic report card</li>
             <li>Top prioritised actions</li>
             <li>4-6 page PDF report</li>
             <li>Technical evidence and limitations</li>
           </ul>
           <a class="button button-wide" data-checkout href="#checkout">Get my website risk report - $49</a>
           <p class="price-note">Delivery target: within 24 hours. Source availability and human review can affect timing.</p>
-          <div class="checkout-notice" id="checkout-notice" role="status" tabindex="-1" hidden>Checkout destination is not configured in this build. Add the verified product URL before launch.</div>
+          <div class="checkout-notice" id="checkout-notice" role="status" tabindex="-1" hidden>Checkout is temporarily unavailable. Email info@ai2eo.com to order the report.</div>
         </article>
       </div>
     </section>
@@ -310,12 +311,24 @@
       <div class="section-inner faq-layout">
         <div class="faq-intro">
           <h2 data-reveal>Questions before you order</h2>
-          <p class="section-lede" data-reveal style="--reveal-delay: 80ms">The report is intentionally specific about what it can and cannot say.</p>
+          <p class="section-lede" data-reveal style="--reveal-delay: 80ms">What a missed warning actually costs - and what this report can and cannot say.</p>
         </div>
         <div class="faq-list" data-reveal style="--reveal-delay: 120ms">
           <details>
             <summary>My site loads fine. Why would I pay for this?</summary>
-            <p>If the only findings are missing optional headers, you should not - the free DMARC check above is enough for you. The report pays for itself when it catches a blacklist flag, an expiring certificate, or mail authentication that lets anyone forge your domain. Those are the findings that cost customers.</p>
+            <p>A site can load perfectly while browsers warn visitors away, HTTPS is days from breaking, or your domain can be used to send forged invoices. Those failures are silent from the inside and expensive from the outside - and they are the only ones worth paying to find. If the only finding is an optional missing header, you will see that clearly, and you should not buy a fix you do not need.</p>
+          </details>
+          <details>
+            <summary>What does ignoring a finding actually cost me?</summary>
+            <p>Three failures do damage fast. A threat-intel flag makes browsers show a full-page "dangerous site" warning, and most visitors leave before the page loads. An expiring or expired certificate breaks HTTPS, so every visitor hits a trust error and forms or checkout can fail. Missing SPF/DMARC lets anyone send mail as your domain - forged invoices and quotes included - while your own quotes can land in spam.</p>
+          </details>
+          <details>
+            <summary>How fast can one missed warning cost me customers?</summary>
+            <p>None of these has a grace period. A certificate outage starts on the expiry date itself. A spoofing campaign can run for days before a customer tells you. A blacklist flag can land on your busiest trading day. This is a point-in-time check: it catches what is wrong now, while it is still cheap to fix.</p>
+          </details>
+          <details>
+            <summary>If something is already wrong, is it too late?</summary>
+            <p>Almost never - detection is the slow part, not the fix. The report gives you the exact evidence (the certificate date, the missing record, the flagged source) and the first actions, so your developer or host can act the same day.</p>
           </details>
           <details>
             <summary>Is this a penetration test?</summary>

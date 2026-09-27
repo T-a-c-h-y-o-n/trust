@@ -1,0 +1,10 @@
+# SiteRisk Report / trust.ai2eo.com - runtime dependencies
+# (Installed system packages verified 2026-09-22; pin for portability)
+pydantic>=2.6
+dnspython>=2.4
+requests>=2.31
+httpx>=0.27
+Markdown>=3.5
+weasyprint>=60
+# optional screenshot (future):
+# playwright>=1.40
